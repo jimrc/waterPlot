@@ -1,43 +1,50 @@
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <!-- import plugin script -->
-	
-      <script src="https://d3js.org/d3.v6.min.js"></script>
-      <script src = 'timeSeriesChart.js'></script>
+  <head>
+    <meta charset="utf-8" />
+    <!-- import plugin script -->
 
-      <title>RemoteAg</title>
-    </head>
+    <script src="data/d3.v6.min.js"></script> 
+    <script src="timeSeriesChart.js"></script>
 
-    <body>
-      <h2> Remote Ag</h2>
+    <title>RemoteAg </title>
+  </head>
 
+  <body>
+    <h2>Remote Ag</h2>
 
-<div id="chart-placeholder"></div>
-<script>
-  // Initialize your data here. E.g.
-
-   const data = [{date: Date.parse("2024-06-30T10:00:01"), height: 25, batV: 4.2},
-                {date: Date.parse("2024-07-22T14:14:14"), height: 18, batV: 4.1},
-                {date: Date.parse("2024-09-01T16:16:16"), height: 8, batV: 4.1},
-                ];
-  // Refer to the Appendix to view the data used in this notebook.
-  const options = {
-    title: "CX Ranch Water System",
-    data: data,
-    series: [
-      {
-        label: "Height (in)",
-        metric: "height",
-        lineColor: "#77bb41ff",
-        fillColor: "#77bb4132"
-      }
-    ]
-  };
-  const c = new TimeSeriesChart(options);
-  c.appendTo("#chart-placeholder");
-</script>
-
-      
-    </body>
+    <div id="chart-placeholder"></div> 
+    <script>
+      let data = [];
+        const parseTime = d3.utcParse("%a %b %e %YT%H:%M ");
+        console.log(parseTime("Wed Aug 20 2024 13:29"));
+        // Initialize your data here.
+        d3.tsv("/data/weirData2024.tsv", function(error, data) {
+          if (error) throw error;
+          data.forEach(function(d) {
+            d.date = parseTime(d.DateTime);
+            d.height = +d.Height  ; 
+            console.log(d.DateTime);
+          }) 
+        });
+          //[{date: Date.parse("2024-06-30T10:00:01"), height: 25, batV: 4.2},
+              //        {date: Date.parse("2024-07-22T14:14:14"), height: 18, batV: 4.1},
+              //        {date: Date.parse("2024-09-01T16:16:16"), height: 8, batV: 4.1},
+              //        ];
+        // Refer to the Appendix to view the data used in this notebook.
+        const options = {
+          title: "CX Ranch Water Monitor",
+          data: data,
+          series: [
+            {
+              label: "Height (in)",
+              metric: "height",
+              lineColor: "#77bb41ff",
+              fillColor: "#77bb4132"
+            }
+          ]
+        };
+        const c = new TimeSeriesChart(options);
+        c.appendTo("#chart-placeholder");
+    </script>
+  </body>
 </html>

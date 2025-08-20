@@ -1,6 +1,6 @@
 
 class TimeSeriesChart {
-
+  // by Goeffrey Dufour
   constructor({
     data,
     width = 500,
