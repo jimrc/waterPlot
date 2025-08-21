@@ -18,7 +18,7 @@
         const parseTime = d3.utcParse("%a %b %e %YT%H:%M ");
         console.log(parseTime("Wed Aug 20 2024 13:29"));
         // Initialize your data here.
-        d3.tsv("/data/weirData2024.tsv", function(error, data) {
+        d3.tsv("https://raw.githubusercontent.com/jimrc/waterPlot/refs/heads/main/data/pondData2025.tsv", function(error, data) {
           if (error) throw error;
           data.forEach(function(d) {
             d.date = parseTime(d.DateTime);
